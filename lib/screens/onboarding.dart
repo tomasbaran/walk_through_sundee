@@ -46,31 +46,25 @@ class _OnboardingState extends State<Onboarding> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  ButtonNext(
-                    title: 'Skip',
-                    onTapDown: (TapDownDetails tapDownDetails) {
-                      setState(() {
-                        isSkipTapped = true;
-                      });
-                    },
-                    onTapCancel: () {
-                      setState(() {
-                        isSkipTapped = false;
-                      });
-                    },
-                    onTapUp: (TapUpDetails tapUpDetails) {
-                      setState(() {
-                        isSkipTapped = false;
-                        _currentPage++;
-                        _pageController.animateToPage(2,
-                            duration: Duration(milliseconds: 500), curve: Curves.easeOutQuint);
-                        print('touched next');
-                      });
-                    },
-                    style: !isSkipTapped
-                        ? sOnboardingButtonSkip
-                        : sOnboardingButtonSkip.copyWith(color: Colors.black.withOpacity(0.5)),
-                  ),
+                  _currentPage != _numberOfPages - 1
+                      ? ButtonNext(
+                          title: 'Skip',
+                          onTapUp: (TapUpDetails tapUpDetails) {
+                            setState(() {
+                              isSkipTapped = false;
+                              _currentPage++;
+                              _pageController.animateToPage(2,
+                                  duration: Duration(milliseconds: 500), curve: Curves.easeOutQuint);
+                              print('touched next');
+                            });
+                          },
+                          style: !isSkipTapped
+                              ? sOnboardingButtonSkip
+                              : sOnboardingButtonSkip.copyWith(color: Colors.black.withOpacity(0.5)),
+                        )
+                      : Container(
+                          height: 24,
+                        ),
                   Align(
                     alignment: Alignment.center,
                     child: MyIllustration(
@@ -113,23 +107,10 @@ class _OnboardingState extends State<Onboarding> {
                   ),
                   ButtonNext(
                     title: 'Next →',
-                    onTapDown: (TapDownDetails tapDownDetails) {
-                      setState(() {
-                        isNextTapped = true;
-                      });
-                    },
-                    onTapCancel: () {
-                      setState(() {
-                        isNextTapped = false;
-                      });
-                    },
                     onTapUp: (TapUpDetails tapUpDetails) {
-                      setState(() {
-                        isNextTapped = false;
-                        _currentPage++;
-                        _pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeOutCubic);
-                        print('touched next');
-                      });
+                      isNextTapped = false;
+                      _currentPage++;
+                      _pageController.nextPage(duration: Duration(milliseconds: 250), curve: Curves.easeOutCubic);
                     },
                     style: !isNextTapped
                         ? sOnboardingButtonNext
@@ -205,10 +186,10 @@ class MyIllustration extends StatelessWidget {
             child: AnimatedCircularChart(
               startAngle: 270,
               lowerBound: currentPage == 0 ? 1 : currentPage == 1 ? middleStop : 0,
-              animationCurve: currentPage != 2 ? Curves.easeInOut : Curves.easeOutCubic,
+              animationCurve: currentPage != 2 ? Curves.easeInOut : Curves.easeInOutSine,
               reverse: true,
               holeRadius: 44,
-              duration: Duration(seconds: currentPage == 2 ? 1 : 4),
+              duration: Duration(milliseconds: currentPage != 2 ? 5000 : 2000),
               percentageValues: true,
               key: _chartKey,
               size: Size(diameter * ratio, diameter * ratio),
