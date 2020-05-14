@@ -15,8 +15,6 @@ class _OnboardingState extends State<Onboarding> {
   final int _numberOfPages = 3;
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  bool isSkipTapped = false;
-  bool isNextTapped = false;
 
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
@@ -54,16 +52,13 @@ class _OnboardingState extends State<Onboarding> {
                           title: 'Skip',
                           onTapUp: (TapUpDetails tapUpDetails) {
                             setState(() {
-                              isSkipTapped = false;
                               _currentPage++;
                               _pageController.animateToPage(2,
                                   duration: Duration(milliseconds: 500), curve: Curves.easeOutQuint);
                               print('touched next');
                             });
                           },
-                          style: !isSkipTapped
-                              ? sOnboardingButtonSkip
-                              : sOnboardingButtonSkip.copyWith(color: Colors.black.withOpacity(0.5)),
+                          style: sOnboardingButtonSkip,
                         )
                       : Container(
                           height: 24,
@@ -111,13 +106,10 @@ class _OnboardingState extends State<Onboarding> {
                   ButtonNext(
                     title: 'Next →',
                     onTapUp: (TapUpDetails tapUpDetails) {
-                      isNextTapped = false;
                       _currentPage++;
                       _pageController.nextPage(duration: Duration(milliseconds: 250), curve: Curves.easeOutCubic);
                     },
-                    style: !isNextTapped
-                        ? sOnboardingButtonNext
-                        : sOnboardingButtonNext.copyWith(color: Colors.black.withOpacity(0.5)),
+                    style: sOnboardingButtonNext,
                   ),
                 ],
               ),
