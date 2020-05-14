@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/style.dart';
 import '../../theme/style_constants.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
@@ -48,10 +47,10 @@ class MyIllustration extends StatelessWidget {
             child: AnimatedCircularChart(
               startAngle: 270,
               lowerBound: currentPage == 0 ? 1 : currentPage == 1 ? middleStop : 0,
-              animationCurve: currentPage != 2 ? Curves.easeInOut : Curves.easeOutCubic,
+              animationCurve: currentPage != 2 ? Curves.easeInOut : Curves.easeInOutSine,
               reverse: true,
               holeRadius: 44,
-              duration: Duration(seconds: currentPage == 2 ? 1 : 4),
+              duration: Duration(milliseconds: currentPage != 2 ? 3500 : 1500),
               percentageValues: true,
               key: _chartKey,
               size: Size(diameter * ratio, diameter * ratio),

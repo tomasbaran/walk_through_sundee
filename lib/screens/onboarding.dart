@@ -107,7 +107,7 @@ class _OnboardingState extends State<Onboarding> {
                     title: 'Next →',
                     onTapUp: (TapUpDetails tapUpDetails) {
                       _currentPage++;
-                      _pageController.nextPage(duration: Duration(milliseconds: 250), curve: Curves.easeOutCubic);
+                      _pageController.nextPage(duration: Duration(milliseconds: 600), curve: Curves.easeOutCubic);
                     },
                     style: sOnboardingButtonNext,
                   ),
