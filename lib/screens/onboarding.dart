@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:walk_through_sundee/theme/style_constants.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import '../widgets/walk_through/button_next.dart';
+import '../widgets/walk_through/my_illustration.dart';
+import '../widgets/walk_through/onboarding_page.dart';
+import '../widgets/walk_through/page_indicator.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -156,152 +159,6 @@ class _OnboardingState extends State<Onboarding> {
               ),
             )
           : Text(''),
-    );
-  }
-}
-
-class MyIllustration extends StatelessWidget {
-  MyIllustration({@required this.diameter, @required this.ratio, this.currentPage});
-  final double diameter;
-  final double ratio;
-  final int currentPage;
-  static final double middleStop = 0.66;
-
-  final GlobalKey<AnimatedCircularChartState> _chartKey = GlobalKey<AnimatedCircularChartState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: Container(
-            height: diameter,
-            width: diameter,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: colorSun1,
-            ),
-            child: ClipOval(
-              child: Column(
-                children: [
-                  Container(
-                    height: diameter * 0.15,
-                    width: double.infinity,
-                    color: colorSun3,
-                  ),
-                  Container(
-                    height: diameter * 0.225,
-                    width: double.infinity,
-                    color: colorSun2,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: (diameter - (diameter * ratio)) / 2),
-          child: Center(
-            child: AnimatedCircularChart(
-              startAngle: 270,
-              lowerBound: currentPage == 0 ? 1 : currentPage == 1 ? middleStop : 0,
-              animationCurve: currentPage != 2 ? Curves.easeInOut : Curves.easeOutCubic,
-              reverse: true,
-              holeRadius: 44,
-              duration: Duration(seconds: currentPage == 2 ? 1 : 4),
-              percentageValues: true,
-              key: _chartKey,
-              size: Size(diameter * ratio, diameter * ratio),
-              initialChartData: <CircularStackEntry>[
-                CircularStackEntry(
-                  <CircularSegmentEntry>[
-                    CircularSegmentEntry(currentPage != 2 ? -100 : middleStop * -100, Colors.white),
-                  ],
-                ),
-              ],
-              chartType: CircularChartType.Pie,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ButtonNext extends StatelessWidget {
-  ButtonNext({this.onTapCancel, this.onTapDown, this.onTapUp, this.style, this.title});
-  final String title;
-  final Function onTapDown;
-  final Function onTapCancel;
-  final Function onTapUp;
-  final TextStyle style;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Text(
-        title,
-        style: style,
-      ),
-      onTapDown: onTapDown,
-      onTapCancel: onTapCancel,
-      onTapUp: onTapUp,
-    );
-  }
-}
-
-class OnboardingPage extends StatelessWidget {
-  final String title;
-  final String text;
-  OnboardingPage({this.text, this.title});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: grid1 * 8,
-        vertical: 60,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: sOnboardingHeadline,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 62,
-          ),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.headline4.copyWith(
-                  fontSize: 22,
-                ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PageIndicator extends StatelessWidget {
-  final bool isActive;
-  PageIndicator(this.isActive);
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 200),
-      margin: EdgeInsets.symmetric(
-        horizontal: grid2,
-      ),
-      height: 8,
-      width: isActive ? 32 : 16,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        color: isActive ? colorPrimary1 : colorPrimary4,
-      ),
     );
   }
 }
